@@ -1,4 +1,4 @@
-# [PHP] - P8 Openclassrooms - Créez un web service exposant une API
+# [PHP] - P7 Openclassrooms - Créez un web service exposant une API
 
 ## Contexte
 
