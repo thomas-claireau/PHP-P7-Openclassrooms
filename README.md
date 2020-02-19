@@ -1,5 +1,9 @@
 # [PHP] - P7 Openclassrooms - Créez un web service exposant une API
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a04d6e15461c4d67a4a9b8ebc9b79610)](https://www.codacy.com/manual/thomas-claireau/PHP-P7-Openclassrooms?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=thomas-claireau/PHP-P7-Openclassrooms&amp;utm_campaign=Badge_Grade)
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/b350fbd18550b9521cbe/maintainability)](https://codeclimate.com/github/thomas-claireau/PHP-P7-Openclassrooms/maintainability)
+
 ## Contexte
 
 BileMo est une entreprise offrant toute une sélection de téléphones mobiles haut de gamme.
