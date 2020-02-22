@@ -40,9 +40,9 @@ class ApiProductController extends AbstractController
 	 */
 	public function showAll()
 	{
-		$products = $this->getDoctrine()->getRepository('App:Product')->findAll();
+		$products = $this->productRepository->findAll();
 
-		$data = $this->serializer->serialize($products, 'json', SerializationContext::create()->setGroups(array('list')));
+		$data = $this->serializer->serialize($products, 'json', SerializationContext::create()->setGroups(array('showAll')));
 
 		$response = new Response($data);
 		$response->headers->set('Content-Type', 'application/json');
@@ -56,7 +56,7 @@ class ApiProductController extends AbstractController
 	 */
 	public function read(Product $product, Request $request)
 	{
-		$data = $this->serializer->serialize($product, 'json', SerializationContext::create()->setGroups(array('detail')));
+		$data = $this->serializer->serialize($product, 'json', SerializationContext::create()->setGroups(array('read')));
 
 		$response = new Response($data);
 		$response->headers->set('Content-Type', 'application/json');

@@ -16,28 +16,25 @@ class Product
 	 * @ORM\Id()
 	 * @ORM\GeneratedValue()
 	 * @ORM\Column(type="integer")
-	 * @Serializer\Groups({"list"})
+	 * @Serializer\Groups({"showAll"})
 	 */
 	private $id;
 
 	/**
 	 * @ORM\Column(type="string", length=255)
-	 * @Serializer\Groups({"list"})
-	 * @Serializer\Groups({"detail"})
+	 * @Serializer\Groups({"showAll", "read"})
 	 */
 	private $name;
 
 	/**
 	 * @ORM\Column(type="integer")
-	 * @Serializer\Groups({"list"})
-	 * @Serializer\Groups({"detail"})
+	 * @Serializer\Groups({"showAll", "read"})
 	 */
 	private $price;
 
 	/**
 	 * @ORM\Column(type="text")
-	 * @Serializer\Groups({"list"})
-	 * @Serializer\Groups({"detail"})
+	 * @Serializer\Groups({"showAll", "read"})
 	 */
 	private $description;
 
