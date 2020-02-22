@@ -19,6 +19,12 @@ class ProductRepository extends ServiceEntityRepository
 		parent::__construct($registry, Product::class);
 	}
 
+	public function resetIndex()
+	{
+		$connection = $this->getEntityManager()->getConnection();
+		$connection->exec("ALTER TABLE product AUTO_INCREMENT = 1;");
+	}
+
 	// /**
 	//  * @return Product[] Returns an array of Product objects
 	//  */

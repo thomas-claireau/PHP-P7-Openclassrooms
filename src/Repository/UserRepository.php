@@ -19,6 +19,12 @@ class UserRepository extends ServiceEntityRepository
 		parent::__construct($registry, User::class);
 	}
 
+	public function resetIndex()
+	{
+		$connection = $this->getEntityManager()->getConnection();
+		$connection->exec("ALTER TABLE user AUTO_INCREMENT = 1;");
+	}
+
 	// /**
 	//  * @return User[] Returns an array of User objects
 	//  */

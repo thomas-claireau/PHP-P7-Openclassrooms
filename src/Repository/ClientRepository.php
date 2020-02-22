@@ -19,6 +19,12 @@ class ClientRepository extends ServiceEntityRepository
 		parent::__construct($registry, Client::class);
 	}
 
+	public function resetIndex()
+	{
+		$connection = $this->getEntityManager()->getConnection();
+		$connection->exec("ALTER TABLE client AUTO_INCREMENT = 1;");
+	}
+
 	// /**
 	//  * @return Client[] Returns an array of Client objects
 	//  */
