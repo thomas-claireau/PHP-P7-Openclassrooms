@@ -25,6 +25,22 @@ class ProductRepository extends ServiceEntityRepository
 		$connection->exec("ALTER TABLE product AUTO_INCREMENT = 1;");
 	}
 
+	/**
+	 * @return Product[]
+	 */
+	public function findAll(): array
+	{
+		return $this->getQueryDesc()
+			->getQuery()
+			->getResult();
+	}
+
+	private function getQueryDesc()
+	{
+		return $this->createQueryBuilder('p')
+			->orderBy('p.id', 'DESC');
+	}
+
 	// /**
 	//  * @return Product[] Returns an array of Product objects
 	//  */
