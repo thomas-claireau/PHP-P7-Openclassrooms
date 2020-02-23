@@ -3,18 +3,19 @@
 namespace App\Controller\Api;
 
 use App\Entity\User;
+use App\Entity\Client;
 use App\Repository\UserRepository;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use FOS\RestBundle\Controller\FOSRestController;
-use Symfony\Component\Validator\ConstraintViolationList;
 
 /**
  * @Route("api/")
@@ -75,18 +76,31 @@ class ApiUserController extends FOSRestController
 
 	/**
 	 * @Rest\Post(
-	 *     path = "users",
+	 *     path = "users_client/{id}",
 	 *     name = "api.users.create",
+	 * 	   requirements = {"id"="\d+"}
 	 * )
 	 * @Rest\View(
 	 * 	StatusCode = 201
 	 * )
 	 * @ParamConverter("user", converter="fos_rest.request_body")
 	 */
-	public function createUser(User $user, ConstraintViolationList $violations)
+	public function createUser(User $user, ConstraintViolationList $violations, Request $request)
 	{
 		if (count($violations)) {
 			return $this->view($violations, Response::HTTP_BAD_REQUEST);
+		}
+
+		$params = $request->attributes->get('_route_params');
+		$idClient = $params['id'];
+
+		if ($user instanceof User) {
+			$client = $this->getDoctrine()
+				->getRepository(Client::class)
+				->find($idClient);
+
+			$user->setClient($client);
+			$user->setRole('["ROLE_CLIENT"]');
 		}
 
 		$this->em->persist($user);
