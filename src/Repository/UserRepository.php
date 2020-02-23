@@ -25,6 +25,41 @@ class UserRepository extends ServiceEntityRepository
 		$connection->exec("ALTER TABLE user AUTO_INCREMENT = 1;");
 	}
 
+	/**
+	 * @return User[]
+	 */
+	public function findAllByClient($idClient): array
+	{
+		return $this->getQueryDesc($idClient)
+			->getQuery()
+			->getResult();
+	}
+
+	/**
+	 * @return User[]
+	 */
+	public function findUser($idClient, $idUser): array
+	{
+		return $this->getQueryDesc($idClient, $idUser)
+			->getQuery()
+			->getResult();
+	}
+
+	private function getQueryDesc($idClient, $idUser = null)
+	{
+		$query = $this->createQueryBuilder('p')
+			->orderBy('p.id', 'DESC')
+			->where('p.client = :id_client')
+			->setParameter('id_client', $idClient);
+
+		if ($idUser)
+			$query
+				->andWhere('p.id = :id_user')
+				->setParameter('id_user', $idUser);
+
+		return $query;
+	}
+
 	// /**
 	//  * @return User[] Returns an array of User objects
 	//  */

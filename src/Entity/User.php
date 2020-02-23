@@ -3,10 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity("email")
+ * @UniqueEntity("name")
  */
 class User implements UserInterface
 {
@@ -14,21 +19,25 @@ class User implements UserInterface
 	 * @ORM\Id()
 	 * @ORM\GeneratedValue()
 	 * @ORM\Column(type="integer")
+	 * @Serializer\Groups({"showAll"})
 	 */
 	private $id;
 
 	/**
 	 * @ORM\Column(type="string", length=255)
+	 * @Serializer\Groups({"showAll", "read"})
 	 */
 	private $email;
 
 	/**
 	 * @ORM\Column(type="string", length=255)
+	 * @Serializer\Groups({"showAll", "read"})
 	 */
 	private $name;
 
 	/**
 	 * @ORM\Column(type="string", length=255)
+	 * @Serializer\Groups({"showAll", "read"})
 	 */
 	private $role;
 
@@ -38,7 +47,8 @@ class User implements UserInterface
 	private $password;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="user")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="user", cascade={"all"}, fetch="EAGER")
+	 * @Serializer\Groups({"showAll", "read"})
 	 */
 	private $client;
 

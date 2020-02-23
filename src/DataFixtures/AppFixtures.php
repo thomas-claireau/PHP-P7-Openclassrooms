@@ -30,14 +30,90 @@ class AppFixtures extends Fixture
 		$this->clientRepository->resetIndex();
 		$this->productRepository->resetIndex();
 
-		$user = new User();
-		$user->setUsername('root');
-		$user->setEmail('root@root.fr');
-		$user->setRole('["ROLE_ADMIN"]');
-		$user->setPassword($this->encoder->encodePassword($user, 'root'));
-		$manager->persist($user);
+		$users = [
+			[
+				"username" => "root",
+				"email" => "root@root.fr",
+				"role" => '["ROLE_ADMIN"]',
+				"password" => "root",
+			],
+			[
+				"username" => "Client 1 SFR",
+				"email" => "client-1@sfr.fr",
+				"role" => '["ROLE_CLIENT"]',
+				"password" => "root",
+			],
+			[
+				"username" => "Client 1 Bouygues",
+				"email" => "client-1@bouygues.fr",
+				"role" => '["ROLE_CLIENT"]',
+				"password" => "root",
+			],
+			[
+				"username" => "Client 1 France telecom",
+				"email" => "client-1@france-telecom.fr",
+				"role" => '["ROLE_CLIENT"]',
+				"password" => "root",
+			],
+			[
+				"username" => "Client 1 Orange",
+				"email" => "client-1@orange.fr",
+				"role" => '["ROLE_CLIENT"]',
+				"password" => "root",
+			],
+			[
+				"username" => "Client 1 Free",
+				"email" => "client-1@free.fr",
+				"role" => '["ROLE_CLIENT"]',
+				"password" => "root",
+			],
+			[
+				"username" => "Client 1 La poste",
+				"email" => "client-1@la-poste.fr",
+				"role" => '["ROLE_CLIENT"]',
+				"password" => "root",
+			],
+			[
+				"username" => "Client 2 SFR",
+				"email" => "client-2@sfr.fr",
+				"role" => '["ROLE_CLIENT"]',
+				"password" => "root",
+			],
+			[
+				"username" => "Client 2 Bouygues",
+				"email" => "client-2@bouygues.fr",
+				"role" => '["ROLE_CLIENT"]',
+				"password" => "root",
+			],
+			[
+				"username" => "Client 2 France telecom",
+				"email" => "client-2@france-telecom.fr",
+				"role" => '["ROLE_CLIENT"]',
+				"password" => "root",
+			],
+			[
+				"username" => "Client 2 Orange",
+				"email" => "client-2@orange.fr",
+				"role" => '["ROLE_CLIENT"]',
+				"password" => "root",
+			],
+			[
+				"username" => "Client 2 Free",
+				"email" => "client-2@free.fr",
+				"role" => '["ROLE_CLIENT"]',
+				"password" => "root",
+			],
+			[
+				"username" => "Client 2 La poste",
+				"email" => "client-2@la-poste.fr",
+				"role" => '["ROLE_CLIENT"]',
+				"password" => "root",
+			],
+		];
 
 		$clients = ['SFR', 'Bouygues', 'France telecom', 'Orange', 'Free', 'La poste'];
+		$clientsObj = [];
+
 		$products = [
 			[
 				"name" => "Apple iPhone 11 Pro Max",
@@ -75,6 +151,29 @@ class AppFixtures extends Fixture
 			$client = new Client();
 			$client->setName($item);
 			$manager->persist($client);
+			array_push($clientsObj, $client);
+		}
+
+		foreach ($users as $key => $item) {
+			if ($key != 0) {
+				if ($key > 6) {
+					$i = $key - 7;
+				} else {
+					$i = $key - 1;
+				}
+			} else {
+				$i = 1;
+			}
+
+			$client = isset($clientsObj[$i]) ? $clientsObj[$i] : false;
+			$user = new User();
+			$user->setUsername($item['username']);
+			$user->setEmail($item['email']);
+			$user->setRole($item['role']);
+			$user->setPassword($this->encoder->encodePassword($user, $item['password']));
+			if ($client && $key !== 0)
+				$user->setClient($client);
+			$manager->persist($user);
 		}
 
 		foreach ($products as $item) {
