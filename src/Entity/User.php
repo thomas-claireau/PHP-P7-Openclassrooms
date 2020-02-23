@@ -5,11 +5,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity("email")
+ * @UniqueEntity("name")
  */
 class User implements UserInterface
 {
@@ -49,11 +51,6 @@ class User implements UserInterface
 	 * @Serializer\Groups({"showAll", "read"})
 	 */
 	private $client;
-
-	public function __construct()
-	{
-		$this->client = new ArrayCollection();
-	}
 
 	public function __toString()
 	{

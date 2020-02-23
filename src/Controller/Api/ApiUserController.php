@@ -2,20 +2,24 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\Client;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use JMS\Serializer\SerializerInterface;
-use JMS\Serializer\SerializationContext;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use FOS\RestBundle\Controller\FOSRestController;
+use Symfony\Component\Validator\ConstraintViolationList;
 
-class ApiUserController extends AbstractController
+/**
+ * @Route("api/")
+ */
+class ApiUserController extends FOSRestController
 {
 	/**
 	 * @var UserRepository
@@ -35,35 +39,59 @@ class ApiUserController extends AbstractController
 	}
 
 	/**
-	 * @Route("api/users_client/{idClient}", name="api.users.showAll")
-	 * @Method("GET")
-	 * @return Response
+	 * @Rest\Get(
+	 *     path = "users_client/{id}",
+	 *     name = "api.users.client.showAll",
+	 *     requirements = {"id"="\d+"}
+	 * )
+	 * @Rest\View(
+	 * 	serializerGroups = {"showAll"}
+	 * )
 	 */
 	public function showAll(Request $request)
 	{
 		$params = $request->attributes->get('_route_params');
-		$idClient = $params['idClient'];
+		$idClient = $params['id'];
 
 		$users = $this->userRepository->findAllByClient($idClient);
 
-		$data = $this->serializer->serialize($users, 'json', SerializationContext::create()->setGroups(array('showAll')));
-
-		$response = new Response($data);
-		$response->headers->set('Content-Type', 'application/json');
-		return $response;
+		return $users;
 	}
 
 	/**
-	 * @Route("api/users/{id}", name="api.users.read")
-	 * @Method("GET")
-	 * @return Response
+	 * @Rest\Get(
+	 *     path = "users/{id}",
+	 *     name = "api.users.read",
+	 *     requirements = {"id"="\d+"}
+	 * )
+	 * @Rest\View(
+	 * 	serializerGroups = {"read"}
+	 * )
 	 */
-	public function read(User $user, Request $request)
+	public function read(User $user)
 	{
-		$data = $this->serializer->serialize($user, 'json', SerializationContext::create()->setGroups(array('read')));
+		return $user;
+	}
 
-		$response = new Response($data);
-		$response->headers->set('Content-Type', 'application/json');
-		return $response;
+	/**
+	 * @Rest\Post(
+	 *     path = "users",
+	 *     name = "api.users.create",
+	 * )
+	 * @Rest\View(
+	 * 	StatusCode = 201
+	 * )
+	 * @ParamConverter("user", converter="fos_rest.request_body")
+	 */
+	public function createUser(User $user, ConstraintViolationList $violations)
+	{
+		if (count($violations)) {
+			return $this->view($violations, Response::HTTP_BAD_REQUEST);
+		}
+
+		$this->em->persist($user);
+		$this->em->flush();
+
+		return $this->view($user, Response::HTTP_CREATED, ['Location' => $this->generateUrl('api.users.read', ['id' => $user->getId()])]);
 	}
 }

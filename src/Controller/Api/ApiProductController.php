@@ -4,16 +4,15 @@ namespace App\Controller\Api;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
-use JMS\Serializer\SerializationContext;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use JMS\Serializer\SerializerInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Routing\Annotation\Route;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
+/**
+ * @Route("api/")
+ */
 class ApiProductController extends AbstractController
 {
 	/**
@@ -34,32 +33,31 @@ class ApiProductController extends AbstractController
 	}
 
 	/**
-	 * @Route("api/products", name="api.products.showAll")
-	 * @Method("GET")
-	 * @return Response
+	 * @Rest\Get(
+	 *     path = "products",
+	 *     name = "api.products.showAll",
+	 * )
+	 * @Rest\View(
+	 * 	serializerGroups = {"showAll"}
+	 * )
 	 */
 	public function showAll()
 	{
 		$products = $this->productRepository->findAll();
-
-		$data = $this->serializer->serialize($products, 'json', SerializationContext::create()->setGroups(array('showAll')));
-
-		$response = new Response($data);
-		$response->headers->set('Content-Type', 'application/json');
-		return $response;
+		return $products;
 	}
 
 	/**
-	 * @Route("api/products/{id}", name="api.products.read")
-	 * @Method("GET")
-	 * @return Response
+	 * @Rest\Get(
+	 *     path = "products/{id}",
+	 *     name = "api.products.read",
+	 * )
+	 * @Rest\View(
+	 * 	serializerGroups = {"read"}
+	 * )
 	 */
-	public function read(Product $product, Request $request)
+	public function read(Product $product)
 	{
-		$data = $this->serializer->serialize($product, 'json', SerializationContext::create()->setGroups(array('read')));
-
-		$response = new Response($data);
-		$response->headers->set('Content-Type', 'application/json');
-		return $response;
+		return $product;
 	}
 }
