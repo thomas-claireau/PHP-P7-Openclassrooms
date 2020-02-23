@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 use JMS\Serializer\Annotation as Serializer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -12,7 +13,55 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("email")
  * @UniqueEntity("name")
+ * @ApiResource(
+ * 	itemOperations={
+ *     "showAll"={
+ *         "method"="GET",
+ *         "path"="/users_client/{id}",
+ *         "controller"=ApiUserController::class,
+ *     },
+ *     "read"={
+ *         "method"="GET",
+ *         "path"="/users/{id}",
+ *         "controller"=ApiUserController::class,
+ *     },
+ *     "createUser"={
+ *         "method"="POST",
+ *         "path"="/users_client/{id}",
+ *         "controller"=ApiUserController::class,
+ *     },
+ *     "deleteUser"={
+ *         "method"="DELETE",
+ *         "path"="/users/{id}",
+ *         "controller"=ApiUserController::class,
+ *     },
+ * }
+ * )
  */
+
+// @ApiResource(
+// * 	itemOperations={
+// *     "showAll"={
+// *         "method"="GET",
+// *         "path"="/users_client/{id}",
+// *         "controller"=ApiUserController::class,
+// *     },
+// *     "read"={
+// *         "method"="GET",
+// *         "path"="/users/{id}",
+// *         "controller"=ApiUserController::class,
+// *     },
+// *     "createUser"={
+// *         "method"="POST",
+// *         "path"="/users_client/{id}",
+// *         "controller"=ApiUserController::class,
+// *     },
+// *     "deleteUser"={
+// *         "method"="DELETE",
+// *         "path"="/users/{id}",
+// *         "controller"=ApiUserController::class,
+// *     },
+// * })
 class User implements UserInterface
 {
 	/**

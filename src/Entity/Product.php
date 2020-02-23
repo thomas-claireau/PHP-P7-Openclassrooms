@@ -3,12 +3,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use ApiPlatform\Core\Annotation\ApiResource;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  * @UniqueEntity("name")
+ * @ApiResource(
+ * 	collectionOperations={"get"={"method"="GET"}},
+ *  itemOperations={"get"={"method"="GET"}}
+ * )
  */
 class Product
 {
