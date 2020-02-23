@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use App\Exception\ResourceValidationException;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -81,14 +82,20 @@ class ApiUserController extends FOSRestController
 	 * 	   requirements = {"id"="\d+"}
 	 * )
 	 * @Rest\View(
-	 * 	StatusCode = 201
+	 * 	StatusCode = 201,
+	 * 	serializerGroups = {"read"}
 	 * )
 	 * @ParamConverter("user", converter="fos_rest.request_body")
 	 */
 	public function createUser(User $user, ConstraintViolationList $violations, Request $request)
 	{
 		if (count($violations)) {
-			return $this->view($violations, Response::HTTP_BAD_REQUEST);
+			$message = 'The JSON sent contains invalid data. Here are the errors you need to correct: ';
+			foreach ($violations as $violation) {
+				$message .= sprintf("Field %s: %s ", $violation->getPropertyPath(), $violation->getMessage());
+			}
+
+			throw new ResourceValidationException($message);
 		}
 
 		$params = $request->attributes->get('_route_params');
@@ -107,5 +114,33 @@ class ApiUserController extends FOSRestController
 		$this->em->flush();
 
 		return $this->view($user, Response::HTTP_CREATED, ['Location' => $this->generateUrl('api.users.read', ['id' => $user->getId()])]);
+	}
+
+	/**
+	 * @Rest\Delete(
+	 *     path = "users/{id}",
+	 *     name = "api.users.delete",
+	 * 	   requirements = {"id"="\d+"}
+	 * )
+	 * @Rest\View(
+	 * 	StatusCode = 201,
+	 * 	serializerGroups = {"read"}
+	 * )
+	 */
+	public function deleteUser(User $user)
+	{
+		if ($user instanceof User) {
+			$roleUser = $user->getRole();
+
+			if ($roleUser !== '["ROLE_ADMIN"]') {
+				$this->em->remove($user);
+				$this->em->flush();
+				return $this->view($user, Response::HTTP_ACCEPTED);
+			} else {
+				throw new ResourceValidationException('Unable to delete an administrator');
+			}
+		} else {
+			throw new ResourceValidationException("The ressource was not found");
+		}
 	}
 }
