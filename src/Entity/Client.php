@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -20,6 +21,7 @@ class Client
 
 	/**
 	 * @ORM\Column(type="string", length=255)
+	 * @Serializer\Groups({"showAll", "read"})
 	 */
 	private $name;
 

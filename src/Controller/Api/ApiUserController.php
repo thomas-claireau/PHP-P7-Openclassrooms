@@ -60,12 +60,6 @@ class ApiUserController extends AbstractController
 	 */
 	public function read(User $user, Request $request)
 	{
-		// $params = $request->attributes->get('_route_params');
-		// $idClient = $params['idClient'];
-		// $idUser = $params['id'];
-
-		// $user = $this->userRepository->find($idClient);
-
 		$data = $this->serializer->serialize($user, 'json', SerializationContext::create()->setGroups(array('read')));
 
 		$response = new Response($data);

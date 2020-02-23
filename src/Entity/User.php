@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -45,7 +46,6 @@ class User implements UserInterface
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="user", fetch="EAGER")
-	 * @ORM\JoinColumn(nullable=false)
 	 * @Serializer\Groups({"showAll", "read"})
 	 */
 	private $client;
