@@ -14,54 +14,71 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity("email")
  * @UniqueEntity("name")
  * @ApiResource(
+ * 	collectionOperations={},
  * 	itemOperations={
  *     "showAll"={
  *         "method"="GET",
  *         "path"="/users_client/{id}",
  *         "controller"=ApiUserController::class,
+ * 			"swagger_context" = {
+ * 				"summary" = "List of registered users linked to a client",
+ *              "consumes" = {
+ *                  "application/json",
+ *                  "text/html",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			}
  *     },
  *     "read"={
  *         "method"="GET",
  *         "path"="/users/{id}",
  *         "controller"=ApiUserController::class,
+ * 			"swagger_context" = {
+ * 				"summary" = "Detail of a registered user",
+ *              "consumes" = {
+ *                  "application/json",
+ *                  "text/html",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			}
  *     },
  *     "createUser"={
  *         "method"="POST",
  *         "path"="/users_client/{id}",
  *         "controller"=ApiUserController::class,
+ * 			"swagger_context" = {
+ * 				"summary" = "Add a new user linked to a client",
+ *              "consumes" = {
+ *                  "application/json",
+ *                  "text/html",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			}
  *     },
  *     "deleteUser"={
  *         "method"="DELETE",
  *         "path"="/users/{id}",
  *         "controller"=ApiUserController::class,
+ * 			"swagger_context" = {
+ * 				"summary" = "Delete a user linked to a client",
+ *              "consumes" = {
+ *                  "application/json",
+ *                  "text/html",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			}
  *     },
  * }
  * )
  */
-
-// @ApiResource(
-// * 	itemOperations={
-// *     "showAll"={
-// *         "method"="GET",
-// *         "path"="/users_client/{id}",
-// *         "controller"=ApiUserController::class,
-// *     },
-// *     "read"={
-// *         "method"="GET",
-// *         "path"="/users/{id}",
-// *         "controller"=ApiUserController::class,
-// *     },
-// *     "createUser"={
-// *         "method"="POST",
-// *         "path"="/users_client/{id}",
-// *         "controller"=ApiUserController::class,
-// *     },
-// *     "deleteUser"={
-// *         "method"="DELETE",
-// *         "path"="/users/{id}",
-// *         "controller"=ApiUserController::class,
-// *     },
-// * })
 class User implements UserInterface
 {
 	/**

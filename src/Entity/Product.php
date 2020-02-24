@@ -11,13 +11,45 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  * @UniqueEntity("name")
  * @ApiResource(
- * 	collectionOperations={"get"={"method"="GET"}},
- *  itemOperations={"get"={"method"="GET"}}
+ * 	collectionOperations={},
+ * 	itemOperations={
+ *     "showAll"={
+ *         "method"="GET",
+ *         "path"="/products",
+ *         "controller"=ApiProductController::class,
+ * 			"swagger_context" = {
+ * 				"summary" = "List of Bilemo products",
+ *              "consumes" = {
+ *                  "application/json",
+ *                  "text/html",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			}
+ *     },
+ *     "read"={
+ *         "method"="GET",
+ *         "path"="/products/{id}",
+ *         "controller"=ApiProductController::class,
+ * 			"swagger_context" = {
+ * 				"summary" = "Detail of a Bilemo product",
+ *              "consumes" = {
+ *                  "application/json",
+ *                  "text/html",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			}
+ *     },
+ * }
  * )
  */
-class Product
+class Product //
 {
 	/**
+	 * Test
 	 * @ORM\Id()
 	 * @ORM\GeneratedValue()
 	 * @ORM\Column(type="integer")
