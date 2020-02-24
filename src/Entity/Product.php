@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Controller\Api\ApiProductController;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -14,10 +15,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * 	collectionOperations={},
  * 	itemOperations={
  *     "showAll"={
+ *         "route_name"="api.products.showAll",
  *         "method"="GET",
  *         "path"="/products",
- *         "controller"=ApiProductController::class,
  * 			"swagger_context" = {
+ * 			   "parameters" = {},
  * 				"summary" = "List of Bilemo products",
  *              "consumes" = {
  *                  "application/json",
@@ -26,7 +28,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *              "produces" = {
  *                  "application/json"
  *               }
- * 			}
+ * 			},
  *     },
  *     "read"={
  *         "method"="GET",
@@ -34,6 +36,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *         "controller"=ApiProductController::class,
  * 			"swagger_context" = {
  * 				"summary" = "Detail of a Bilemo product",
+ * 			    "parameters" = {
+ *                  {
+ *                      "name" = "id",
+ *                      "in" = "path",
+ *                      "required" = true,
+ *                      "type" = "string",
+ * 						"description" = "Id of your Bilemo product"
+ *                  }
+ *              },
  *              "consumes" = {
  *                  "application/json",
  *                  "text/html",
@@ -46,10 +57,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * }
  * )
  */
-class Product //
+class Product
 {
 	/**
-	 * Test
 	 * @ORM\Id()
 	 * @ORM\GeneratedValue()
 	 * @ORM\Column(type="integer")

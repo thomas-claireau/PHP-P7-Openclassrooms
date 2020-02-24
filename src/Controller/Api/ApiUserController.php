@@ -7,16 +7,17 @@ use App\Entity\Client;
 use App\Repository\UserRepository;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use App\Exception\ResourceValidationException;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use App\Exception\ResourceValidationException;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("api/")
@@ -33,11 +34,12 @@ class ApiUserController extends FOSRestController
 	 */
 	private $em;
 
-	public function __construct(UserRepository $userRepository, ObjectManager $em, SerializerInterface $serializer)
+	public function __construct(UserRepository $userRepository, ObjectManager $em, SerializerInterface $serializer, UserPasswordEncoderInterface $encoder)
 	{
 		$this->userRepository = $userRepository;
 		$this->em = $em;
 		$this->serializer = $serializer;
+		$this->encoder = $encoder;
 	}
 
 	/**
@@ -106,14 +108,14 @@ class ApiUserController extends FOSRestController
 				->getRepository(Client::class)
 				->find($idClient);
 
+			$user->setPassword($this->encoder->encodePassword($user, $user->getPassword()));
 			$user->setClient($client);
 			$user->setRole('["ROLE_CLIENT"]');
+			$this->em->persist($user);
+			$this->em->flush();
+
+			return $this->view($user, Response::HTTP_CREATED, ['Location' => $this->generateUrl('api.users.read', ['id' => $user->getId()])]);
 		}
-
-		$this->em->persist($user);
-		$this->em->flush();
-
-		return $this->view($user, Response::HTTP_CREATED, ['Location' => $this->generateUrl('api.users.read', ['id' => $user->getId()])]);
 	}
 
 	/**

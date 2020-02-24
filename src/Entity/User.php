@@ -22,9 +22,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *         "controller"=ApiUserController::class,
  * 			"swagger_context" = {
  * 				"summary" = "List of registered users linked to a client",
+ * 			    "parameters" = {
+ *                  {
+ *                      "name" = "id",
+ *                      "in" = "path",
+ *                      "required" = true,
+ *                      "type" = "string",
+ * 						"description" = "Id of your client"
+ *                  }
+ *              },
  *              "consumes" = {
  *                  "application/json",
- *                  "text/html",
  *               },
  *              "produces" = {
  *                  "application/json"
@@ -37,9 +45,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *         "controller"=ApiUserController::class,
  * 			"swagger_context" = {
  * 				"summary" = "Detail of a registered user",
+ * 			    "parameters" = {
+ *                  {
+ *                      "name" = "id",
+ *                      "in" = "path",
+ *                      "required" = true,
+ *                      "type" = "string",
+ * 						"description" = "Id of your user"
+ *                  }
+ *              },
  *              "consumes" = {
  *                  "application/json",
- *                  "text/html",
  *               },
  *              "produces" = {
  *                  "application/json"
@@ -52,9 +68,40 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *         "controller"=ApiUserController::class,
  * 			"swagger_context" = {
  * 				"summary" = "Add a new user linked to a client",
+ * 			    "parameters" = {
+ *                  {
+ *                      "name" = "id",
+ *                      "in" = "path",
+ *                      "required" = true,
+ *                      "type" = "string",
+ * 						"description" = "Id of your client. The created user will be linked to this client",
+ *                  },
+ *                  {
+ *                      "name" = "user",
+ *                      "in" = "body",
+ *                      "required" = true,
+ *                      "type" = "string",
+ * 						"description" = "Data of your new user",
+ * 						"schema": {
+ * 							"properties": {
+ *         						"name": {
+ * 									"type": "string",
+ * 									"example": "name of user"
+ * 								},
+ * 								"email": {
+ * 									"type": "string",
+ * 									"example": "user@user.fr"
+ * 								},
+ * 								"password": {
+ * 									"type": "string",
+ * 									"example": "password"
+ * 								},
+ * 							}
+ * 						 }
+ *                  }
+ *              },
  *              "consumes" = {
  *                  "application/json",
- *                  "text/html",
  *               },
  *              "produces" = {
  *                  "application/json"
@@ -67,9 +114,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *         "controller"=ApiUserController::class,
  * 			"swagger_context" = {
  * 				"summary" = "Delete a user linked to a client",
+ * 				"parameters": {
+ * 					{
+ * 						"name": "id",
+ * 						"in": "path",
+ * 						"required": true,
+ * 						"type": "string",
+ * 						"description": "Id of user to delete"
+ * 					}
+ * 				},
  *              "consumes" = {
  *                  "application/json",
- *                  "text/html",
  *               },
  *              "produces" = {
  *                  "application/json"
