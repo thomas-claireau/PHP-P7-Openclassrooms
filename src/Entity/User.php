@@ -168,7 +168,7 @@ class User implements UserInterface
 	private $password;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="user", cascade={"all"}, fetch="EAGER")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="user", fetch="EAGER")
 	 * @Serializer\Groups({"showAll", "read"})
 	 */
 	private $client;

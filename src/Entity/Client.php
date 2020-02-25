@@ -31,7 +31,7 @@ class Client
 	private $name;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="client")
+	 * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="client", orphanRemoval=true)
 	 */
 	private $user;
 
