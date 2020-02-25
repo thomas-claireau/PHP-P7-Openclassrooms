@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 use JMS\Serializer\Annotation as Serializer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -12,6 +13,126 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity("email")
  * @UniqueEntity("name")
+ * @ApiResource(
+ * 	collectionOperations={},
+ * 	itemOperations={
+ *     "showAll"={
+ *         "method"="GET",
+ *         "path"="/users_client/{id}",
+ *         "controller"=ApiUserController::class,
+ * 			"swagger_context" = {
+ * 				"summary" = "List of registered users linked to a client",
+ * 			    "parameters" = {
+ *                  {
+ *                      "name" = "id",
+ *                      "in" = "path",
+ *                      "required" = true,
+ *                      "type" = "string",
+ * 						"description" = "Id of your client"
+ *                  }
+ *              },
+ *              "consumes" = {
+ *                  "application/json",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			}
+ *     },
+ *     "read"={
+ *         "method"="GET",
+ *         "path"="/users/{id}",
+ *         "controller"=ApiUserController::class,
+ * 			"swagger_context" = {
+ * 				"summary" = "Detail of a registered user",
+ * 			    "parameters" = {
+ *                  {
+ *                      "name" = "id",
+ *                      "in" = "path",
+ *                      "required" = true,
+ *                      "type" = "string",
+ * 						"description" = "Id of your user"
+ *                  }
+ *              },
+ *              "consumes" = {
+ *                  "application/json",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			}
+ *     },
+ *     "createUser"={
+ *         "method"="POST",
+ *         "path"="/users_client/{id}",
+ *         "controller"=ApiUserController::class,
+ * 			"swagger_context" = {
+ * 				"summary" = "Add a new user linked to a client",
+ * 			    "parameters" = {
+ *                  {
+ *                      "name" = "id",
+ *                      "in" = "path",
+ *                      "required" = true,
+ *                      "type" = "string",
+ * 						"description" = "Id of your client. The created user will be linked to this client",
+ *                  },
+ *                  {
+ *                      "name" = "user",
+ *                      "in" = "body",
+ *                      "required" = true,
+ *                      "type" = "string",
+ * 						"description" = "Data of your new user",
+ * 						"schema": {
+ * 							"properties": {
+ *         						"name": {
+ * 									"type": "string",
+ * 									"example": "name of user"
+ * 								},
+ * 								"email": {
+ * 									"type": "string",
+ * 									"example": "user@user.fr"
+ * 								},
+ * 								"password": {
+ * 									"type": "string",
+ * 									"example": "password"
+ * 								},
+ * 							}
+ * 						 }
+ *                  }
+ *              },
+ *              "consumes" = {
+ *                  "application/json",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			}
+ *     },
+ *     "deleteUser"={
+ *         "method"="DELETE",
+ *         "path"="/users/{id}",
+ *         "controller"=ApiUserController::class,
+ * 			"swagger_context" = {
+ * 				"summary" = "Delete a user linked to a client",
+ * 				"parameters": {
+ * 					{
+ * 						"name": "id",
+ * 						"in": "path",
+ * 						"required": true,
+ * 						"type": "string",
+ * 						"description": "Id of user to delete"
+ * 					}
+ * 				},
+ *              "consumes" = {
+ *                  "application/json",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			}
+ *     },
+ * }
+ * )
  */
 class User implements UserInterface
 {
@@ -47,7 +168,7 @@ class User implements UserInterface
 	private $password;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="user", cascade={"all"}, fetch="EAGER")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="user", fetch="EAGER")
 	 * @Serializer\Groups({"showAll", "read"})
 	 */
 	private $client;

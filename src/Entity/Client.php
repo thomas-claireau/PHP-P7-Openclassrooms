@@ -3,12 +3,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use JMS\Serializer\Annotation as Serializer;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
+ * @ApiResource(
+ * collectionOperations={"get"},
+ * itemOperations={"get"}
+ * )
  */
 class Client
 {
@@ -26,7 +31,7 @@ class Client
 	private $name;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="client")
+	 * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="client", orphanRemoval=true)
 	 */
 	private $user;
 

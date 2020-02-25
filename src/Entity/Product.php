@@ -3,12 +3,59 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use ApiPlatform\Core\Annotation\ApiResource;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Controller\Api\ApiProductController;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  * @UniqueEntity("name")
+ * @ApiResource(
+ * 	collectionOperations={},
+ * 	itemOperations={
+ *     "showAll"={
+ *         "route_name"="api.products.showAll",
+ *         "method"="GET",
+ *         "path"="/products",
+ * 			"swagger_context" = {
+ * 			   "parameters" = {},
+ * 				"summary" = "List of Bilemo products",
+ *              "consumes" = {
+ *                  "application/json",
+ *                  "text/html",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			},
+ *     },
+ *     "read"={
+ *         "method"="GET",
+ *         "path"="/products/{id}",
+ *         "controller"=ApiProductController::class,
+ * 			"swagger_context" = {
+ * 				"summary" = "Detail of a Bilemo product",
+ * 			    "parameters" = {
+ *                  {
+ *                      "name" = "id",
+ *                      "in" = "path",
+ *                      "required" = true,
+ *                      "type" = "string",
+ * 						"description" = "Id of your Bilemo product"
+ *                  }
+ *              },
+ *              "consumes" = {
+ *                  "application/json",
+ *                  "text/html",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			}
+ *     },
+ * }
+ * )
  */
 class Product
 {
