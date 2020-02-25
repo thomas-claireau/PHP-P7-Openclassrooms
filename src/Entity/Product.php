@@ -41,7 +41,7 @@ use App\Controller\Api\ApiProductController;
  *                      "name" = "id",
  *                      "in" = "path",
  *                      "required" = true,
- *                      "type" = "string",
+ *                      "type" = "integer",
  * 						"description" = "Id of your Bilemo product"
  *                  }
  *              },

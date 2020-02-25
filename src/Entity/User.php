@@ -27,7 +27,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *                      "name" = "id",
  *                      "in" = "path",
  *                      "required" = true,
- *                      "type" = "string",
+ *                      "type" = "integer",
  * 						"description" = "Id of your client"
  *                  }
  *              },
@@ -50,7 +50,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *                      "name" = "id",
  *                      "in" = "path",
  *                      "required" = true,
- *                      "type" = "string",
+ *                      "type" = "integer",
  * 						"description" = "Id of your user"
  *                  }
  *              },
@@ -73,7 +73,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *                      "name" = "id",
  *                      "in" = "path",
  *                      "required" = true,
- *                      "type" = "string",
+ *                      "type" = "integer",
  * 						"description" = "Id of your client. The created user will be linked to this client",
  *                  },
  *                  {
@@ -119,7 +119,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * 						"name": "id",
  * 						"in": "path",
  * 						"required": true,
- * 						"type": "string",
+ * 						"type": "integer",
  * 						"description": "Id of user to delete"
  * 					}
  * 				},
