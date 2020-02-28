@@ -1,6 +1,25 @@
 {
+	"name": "thomas-claireau/bilemo",
+	"version": "1.0.0",
+	"description": "package manager for my project",
 	"type": "project",
-	"license": "proprietary",
+	"keywords": [
+		"symfony",
+		"api",
+		"web",
+		"application",
+		"php",
+		"mvc",
+	],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Thomas Claireau",
+			"email": "thomas.claireau@gmail.com",
+			"role": "Fullstack web developer"
+		}
+	],
+	"minimum-stability": "dev",
 	"require": {
 		"php": "^7.1.3",
 		"ext-ctype": "*",
