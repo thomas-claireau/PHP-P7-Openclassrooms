@@ -9,7 +9,7 @@
 		"web",
 		"application",
 		"php",
-		"mvc",
+		"mvc"
 	],
 	"license": "MIT",
 	"authors": [
