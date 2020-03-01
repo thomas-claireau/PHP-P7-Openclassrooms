@@ -9,18 +9,18 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        api_doc:
-            pattern: ^/api/docs.json
-            stateless: true
-            anonymous: true
-            json_login:
-                check_path: /api/docs.json
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
-        api:
-            pattern: ^/api/\w+
+        entries_api:
+            pattern: /api/
             stateless: true
             anonymous: false
+            provider: app_user_provider
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        doc_api:
+            pattern: ^
+            stateless: true
+            anonymous: true
             provider: app_user_provider
             guard:
                 authenticators:
@@ -43,7 +43,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/authentication_token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api/docs.json, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/docs.json, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     encoders:
         App\Entity\User:
             algorithm: bcrypt
