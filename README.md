@@ -66,7 +66,9 @@ Vous pouvez aussi utiliser le compte suivant :
 
 #### 3. Générez un JWT
 
-curl -X POST -H "Content-Type: application/json" http://localhost:8000/authentication_token -d "{\"email\":\"YOUR_EMAIL\",\"password\":\"YOUR_PASSWORD\"}"
+```text
+curl -X POST -H "Content-Type: application/json" http://bilemo.thomas-claireau.fr/authentication_token -d "{\"email\":\"YOUR_EMAIL\",\"password\":\"YOUR_PASSWORD\"}"
+```
 
 Remplacez YOUR_EMAIL par votre email (par ex. root@root.fr) et YOUR_PASSWORD par votre mot de passe (par ex. root)
 
