@@ -5,6 +5,7 @@ phpunit.xml.dist
 symfony.lock
 config/bundles.php
 public/build/
+P7_claireau_thomas
 
 # Created by https://www.gitignore.io/api/node,symfony
 # Edit at https://www.gitignore.io/?templates=node,symfony
