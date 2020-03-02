@@ -4,7 +4,7 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/b350fbd18550b9521cbe/maintainability)](https://codeclimate.com/github/thomas-claireau/PHP-P7-Openclassrooms/maintainability)
 
-Démo du projet, [c'est par ici 👋](http://bilemo.thomas-claireau.fr/api/)
+Démo du projet, [c'est par ici 👋](http://bilemo.thomas-claireau.fr)
 
 ## Installation du projet
 
@@ -88,7 +88,7 @@ Récupérez le token généré pour commencer à utiliser l'API de Bilemo.
 curl -H "Authorization: Bearer {yourtoken}" {yourdomain}/api/{entrypoint}
 ```
 
-Pour connaitre tous les entrypoints disponibles, allez voir la [démo du projet 👋](http://bilemo.thomas-claireau.fr/api/)
+Pour connaitre tous les entrypoints disponibles, allez voir la [démo du projet 👋](http://bilemo.thomas-claireau.fr)
 
 ## Contexte
 
