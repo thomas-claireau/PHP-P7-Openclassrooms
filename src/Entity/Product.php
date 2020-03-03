@@ -23,7 +23,6 @@ use App\Controller\Api\ApiProductController;
  * 				"summary" = "List of Bilemo products",
  *              "consumes" = {
  *                  "application/json",
- *                  "text/html",
  *               },
  *              "produces" = {
  *                  "application/json"
@@ -31,9 +30,9 @@ use App\Controller\Api\ApiProductController;
  * 			},
  *     },
  *     "read"={
+ * 		   "route_name"="api.products.read",
  *         "method"="GET",
  *         "path"="/products/{id}",
- *         "controller"=ApiProductController::class,
  * 			"swagger_context" = {
  * 				"summary" = "Detail of a Bilemo product",
  * 			    "parameters" = {
@@ -47,7 +46,6 @@ use App\Controller\Api\ApiProductController;
  *              },
  *              "consumes" = {
  *                  "application/json",
- *                  "text/html",
  *               },
  *              "produces" = {
  *                  "application/json"
