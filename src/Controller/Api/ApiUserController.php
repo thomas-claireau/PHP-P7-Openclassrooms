@@ -88,6 +88,7 @@ class ApiUserController extends FOSRestController
 	 * 	serializerGroups = {"read"}
 	 * )
 	 * @ParamConverter("user", converter="fos_rest.request_body")
+	 * @Route("api/")
 	 */
 	public function createUser(User $user, ConstraintViolationList $violations, Request $request)
 	{

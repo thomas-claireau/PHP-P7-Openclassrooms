@@ -17,6 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * 	collectionOperations={},
  * 	itemOperations={
  *     "showAll"={
+ * 		   "route_name"="api.users.client.showAll",
  *         "method"="GET",
  *         "path"="/users_client/{id}",
  *         "controller"=ApiUserController::class,
@@ -40,9 +41,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * 			}
  *     },
  *     "read"={
+ * 		   "route_name"="api.users.read",
  *         "method"="GET",
  *         "path"="/users/{id}",
- *         "controller"=ApiUserController::class,
  * 			"swagger_context" = {
  * 				"summary" = "Detail of a registered user",
  * 			    "parameters" = {
@@ -63,9 +64,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * 			}
  *     },
  *     "createUser"={
+ * 		   "route_name"="api.users.create",
  *         "method"="POST",
  *         "path"="/users_client/{id}",
- *         "controller"=ApiUserController::class,
  * 			"swagger_context" = {
  * 				"summary" = "Add a new user linked to a client",
  * 			    "parameters" = {
@@ -109,9 +110,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * 			}
  *     },
  *     "deleteUser"={
+ * 		   "route_name"="api.users.delete",
  *         "method"="DELETE",
  *         "path"="/users/{id}",
- *         "controller"=ApiUserController::class,
  * 			"swagger_context" = {
  * 				"summary" = "Delete a user linked to a client",
  * 				"parameters": {
