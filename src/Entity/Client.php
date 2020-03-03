@@ -11,8 +11,48 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
  * @ApiResource(
- * collectionOperations={"get"},
- * itemOperations={"get"}
+ * 	collectionOperations={},
+ * 	itemOperations={
+ *     "showAll"={
+ *         "route_name"="api.clients.showAll",
+ *         "method"="GET",
+ *         "path"="/clients",
+ * 			"swagger_context" = {
+ * 			   "parameters" = {},
+ * 				"summary" = "List of Bilemo clients",
+ *              "consumes" = {
+ *                  "application/json",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			},
+ *     },
+ *     "read"={
+ * 		   "route_name"="api.clients.read",
+ *         "method"="GET",
+ *         "path"="/clients/{id}",
+ * 			"swagger_context" = {
+ * 				"summary" = "Detail of a Bilemo client",
+ * 			    "parameters" = {
+ *                  {
+ *                      "name" = "id",
+ *                      "in" = "path",
+ *                      "required" = true,
+ *                      "type" = "integer",
+ * 						"description" = "Id of your Bilemo client"
+ *                  }
+ *              },
+ *              "consumes" = {
+ *                  "application/json",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			}
+ *     },
+ * }
+ * )
  * )
  */
 class Client
