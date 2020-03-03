@@ -126,7 +126,7 @@ class ApiUserController extends FOSRestController
 	 * 	   requirements = {"id"="\d+"}
 	 * )
 	 * @Rest\View(
-	 * 	StatusCode = 201,
+	 * 	StatusCode = 204,
 	 * 	serializerGroups = {"read"}
 	 * )
 	 */
@@ -138,7 +138,7 @@ class ApiUserController extends FOSRestController
 			if ($roleUser !== '["ROLE_ADMIN"]') {
 				$this->em->remove($user);
 				$this->em->flush();
-				return $this->view($user, Response::HTTP_ACCEPTED);
+				return $this->view($user, Response::HTTP_NO_CONTENT);
 			} else {
 				throw new ResourceValidationException('Unable to delete an administrator');
 			}
