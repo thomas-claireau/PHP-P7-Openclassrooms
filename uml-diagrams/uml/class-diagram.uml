@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>PHP</ID>
+  <OriginalElement>C:/laragon/www/PHP-P7-Openclassrooms/src</OriginalElement>
+  <nodes>
+    <node x="358.33333333333326" y="704.3333333333334">\App\Controller\Api\ApiProductController</node>
+    <node x="10.0" y="295.0">\App\Entity\User</node>
+    <node x="272.9999999999999" y="15.000000000000057">\App\Repository\ProductRepository</node>
+    <node x="678.6666666666664" y="707.6666666666666">\App\Controller\Api\ApiClientController</node>
+    <node x="204.33333333333343" y="293.3333333333333">\App\Entity\Client</node>
+    <node x="8.333333333333371" y="11.666666666666686">\App\Repository\UserRepository</node>
+    <node x="8.666666666666856" y="677.6666666666667">\App\Controller\Api\ApiUserController</node>
+    <node x="540.6666666666669" y="17.666666666666742">\App\Repository\ClientRepository</node>
+    <node x="368.33333333333326" y="296.00000000000006">\App\Entity\Product</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.6000000000000001" x="987.1666666666665" y="718.3333333333333" />
+  <SelectedNodes>
+    <node>\App\Controller\Api\ApiProductController</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Constructors</Category>
+  </Categories>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
