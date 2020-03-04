@@ -139,9 +139,9 @@ class ApiUserController extends FOSRestController
 				$this->em->remove($user);
 				$this->em->flush();
 				return $this->view($user, Response::HTTP_NO_CONTENT);
-			} else {
-				throw new ResourceValidationException('Unable to delete an administrator');
 			}
+
+			throw new ResourceValidationException('Unable to delete an administrator');
 		}
 
 		throw new ResourceValidationException("The ressource was not found");
