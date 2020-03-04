@@ -142,8 +142,8 @@ class ApiUserController extends FOSRestController
 			} else {
 				throw new ResourceValidationException('Unable to delete an administrator');
 			}
-		} else {
-			throw new ResourceValidationException("The ressource was not found");
 		}
+
+		throw new ResourceValidationException("The ressource was not found");
 	}
 }
