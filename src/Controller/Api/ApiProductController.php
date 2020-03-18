@@ -4,11 +4,13 @@ namespace App\Controller\Api;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
-use Doctrine\Common\Persistence\ObjectManager;
 use JMS\Serializer\SerializerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use App\Exception\ResourceValidationException;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("api/")
@@ -19,11 +21,6 @@ class ApiProductController extends AbstractController
 	 * @var ProductRepository
 	 */
 	private $productRepository;
-
-	/**
-	 * @var ObjectManager
-	 */
-	private $em;
 
 	public function __construct(ProductRepository $productRepository, ObjectManager $em, SerializerInterface $serializer)
 	{
@@ -55,9 +52,27 @@ class ApiProductController extends AbstractController
 	 * @Rest\View(
 	 * 	serializerGroups = {"read"}
 	 * )
+	 * @Route("api/")
 	 */
-	public function read(Product $product)
+	public function read(Request $request)
 	{
-		return $product;
+		$params = $request->attributes->get('_route_params');
+		$idProduct = $params['id'];
+
+		$isIdProductInt = (int) $idProduct;
+
+		if ($isIdProductInt || $idProduct == "0") {
+			$product = $this->getDoctrine()
+				->getRepository(Product::class)
+				->find($idProduct);
+
+			if ($product instanceof Product) {
+				return $product;
+			}
+
+			throw new ResourceValidationException("The ressource was not found");
+		}
+
+		throw new ResourceValidationException("Product ID is not of type integer");
 	}
 }
