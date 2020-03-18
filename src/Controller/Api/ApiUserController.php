@@ -235,7 +235,6 @@ class ApiUserController extends FOSRestController
 	 * @Rest\Put(
 	 *     path = "users/{id}",
 	 *     name = "api.users.update",
-	 * 	   requirements = {"id"="\d+"}
 	 * )
 	 * @Rest\View(
 	 * 	StatusCode = 200,
@@ -277,16 +276,31 @@ class ApiUserController extends FOSRestController
 				}
 
 				if ($roleOfUserAuth === '["ROLE_ADMIN"]') {
+					$userExist->setUsername($name);
+					$userExist->setPassword($this->encoder->encodePassword($userExist, $password));
+					$userExist->setEmail($email);
+
+					$this->em->persist($userExist);
+					$this->em->flush();
+
+					return $this->view($userExist, Response::HTTP_OK, ['Location' => $this->generateUrl('api.users.read', ['id' => $userExist->getId()])]);
+				} else {
+					$idClientOfUserAuth = $this->userAuth->getClient()->getId();
+					$idClientOfUser = $userExist->getClient()->getId();
+
+					if ($idClientOfUser === $idClientOfUserAuth) {
+						$userExist->setUsername($name);
+						$userExist->setPassword($this->encoder->encodePassword($userExist, $password));
+						$userExist->setEmail($email);
+
+						$this->em->persist($userExist);
+						$this->em->flush();
+
+						return $this->view($userExist, Response::HTTP_OK, ['Location' => $this->generateUrl('api.users.read', ['id' => $userExist->getId()])]);
+					}
+
+					throw new ResourceValidationException("You cannot update this user linked to this client");
 				}
-
-				$userExist->setUsername($name);
-				$userExist->setPassword($this->encoder->encodePassword($userExist, $password));
-				$userExist->setEmail($email);
-
-				$this->em->persist($userExist);
-				$this->em->flush();
-
-				return $this->view($userExist, Response::HTTP_OK, ['Location' => $this->generateUrl('api.users.read', ['id' => $userExist->getId()])]);
 			}
 
 			throw new ResourceValidationException("Data is not submitted in the correct format");
@@ -308,6 +322,8 @@ class ApiUserController extends FOSRestController
 	{
 		$params = $request->attributes->get('_route_params');
 		$idUser = $params['id'];
+		$roleOfUserAuth = $this->userAuth->getRole();
+		$clientIdOfUserAuth = $this->userAuth->getClient()->getId();
 
 		$isIdUserInt = (int) $idUser;
 
@@ -318,11 +334,22 @@ class ApiUserController extends FOSRestController
 
 			if ($user instanceof User) {
 				$roleUser = $user->getRole();
+				$clientIdOfUser = $user->getClient()->getId();
 
 				if ($roleUser !== '["ROLE_ADMIN"]') {
-					$this->em->remove($user);
-					$this->em->flush();
-					return $this->view('', Response::HTTP_NO_CONTENT);
+					if ($roleOfUserAuth === '["ROLE_ADMIN"]') {
+						$this->em->remove($user);
+						$this->em->flush();
+						return $this->view('', Response::HTTP_NO_CONTENT);
+					} else {
+						if ($clientIdOfUserAuth == $clientIdOfUser) {
+							$this->em->remove($user);
+							$this->em->flush();
+							return $this->view('', Response::HTTP_NO_CONTENT);
+						}
+
+						throw new ResourceValidationException("You cannot delete this user linked to this client");
+					}
 				}
 
 				throw new ResourceValidationException('Unable to delete an administrator');
