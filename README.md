@@ -2,8 +2,6 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a04d6e15461c4d67a4a9b8ebc9b79610)](https://www.codacy.com/manual/thomas-claireau/PHP-P7-Openclassrooms?utm_source=github.com&utm_medium=referral&utm_content=thomas-claireau/PHP-P7-Openclassrooms&utm_campaign=Badge_Grade)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/b350fbd18550b9521cbe/maintainability)](https://codeclimate.com/github/thomas-claireau/PHP-P7-Openclassrooms/maintainability)
-
 Démo du projet, [c'est par ici 👋](http://bilemo.thomas-claireau.fr)
 
 ## Installation du projet
