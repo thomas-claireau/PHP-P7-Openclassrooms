@@ -109,6 +109,52 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *               }
  * 			}
  *     },
+ *     "updateUser"={
+ * 		   "route_name"="api.users.update",
+ *         "method"="PUT",
+ *         "path"="/users/{id}",
+ * 			"swagger_context" = {
+ * 				"summary" = "Update a user",
+ * 			    "parameters" = {
+ *                  {
+ *                      "name" = "id",
+ *                      "in" = "path",
+ *                      "required" = true,
+ *                      "type" = "integer",
+ * 						"description" = "Id of your user.",
+ *                  },
+ *                  {
+ *                      "name" = "user",
+ *                      "in" = "body",
+ *                      "required" = true,
+ *                      "type" = "string",
+ * 						"description" = "Data of your new user",
+ * 						"schema": {
+ * 							"properties": {
+ *         						"name": {
+ * 									"type": "string",
+ * 									"example": "name of user"
+ * 								},
+ * 								"email": {
+ * 									"type": "string",
+ * 									"example": "user@user.fr"
+ * 								},
+ * 								"password": {
+ * 									"type": "string",
+ * 									"example": "password"
+ * 								},
+ * 							}
+ * 						 }
+ *                  }
+ *              },
+ *              "consumes" = {
+ *                  "application/json",
+ *               },
+ *              "produces" = {
+ *                  "application/json"
+ *               }
+ * 			}
+ *     },
  *     "deleteUser"={
  * 		   "route_name"="api.users.delete",
  *         "method"="DELETE",
