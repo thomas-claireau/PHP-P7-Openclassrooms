@@ -46,35 +46,62 @@ class ApiUserController extends FOSRestController
 	 * @Rest\Get(
 	 *     path = "users_client/{id}",
 	 *     name = "api.users.client.showAll",
-	 *     requirements = {"id"="\d+"}
 	 * )
 	 * @Rest\View(
 	 * 	serializerGroups = {"showAll"}
 	 * )
+	 * @Route("api/")
 	 */
 	public function showAll(Request $request)
 	{
 		$params = $request->attributes->get('_route_params');
 		$idClient = $params['id'];
 
-		$users = $this->userRepository->findAllByClient($idClient);
+		$isIdClientInt = (int) $idClient;
 
-		return $users;
+		if ($isIdClientInt || $idClient == "0") {
+			$users = $this->userRepository->findAllByClient($idClient);
+
+			if ($users) {
+				return $users;
+			}
+
+			throw new ResourceValidationException("The ressource was not found");
+		}
+
+		throw new ResourceValidationException("Client ID is not of type integer");
 	}
 
 	/**
 	 * @Rest\Get(
 	 *     path = "users/{id}",
 	 *     name = "api.users.read",
-	 *     requirements = {"id"="\d+"}
 	 * )
 	 * @Rest\View(
 	 * 	serializerGroups = {"read"}
 	 * )
+	 * @Route("api/")
 	 */
-	public function read(User $user)
+	public function read(Request $request)
 	{
-		return $user;
+		$params = $request->attributes->get('_route_params');
+		$idUser = $params['id'];
+
+		$isIdUserInt = (int) $idUser;
+
+		if ($isIdUserInt || $idUser == "0") {
+			$user = $this->getDoctrine()
+				->getRepository(Client::class)
+				->find($idUser);
+
+			if ($user instanceof User) {
+				return $user;
+			}
+
+			throw new ResourceValidationException("The ressource was not found");
+		}
+
+		throw new ResourceValidationException("User ID is not of type integer");
 	}
 
 	/**
@@ -209,7 +236,7 @@ class ApiUserController extends FOSRestController
 
 		$isIdUserInt = (int) $idUser;
 
-		if ($isIdUserInt) {
+		if ($isIdUserInt || $idUser == "0") {
 			$user = $this->getDoctrine()
 				->getRepository(User::class)
 				->find($idUser);
