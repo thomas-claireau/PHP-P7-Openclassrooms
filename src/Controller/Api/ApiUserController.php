@@ -91,7 +91,7 @@ class ApiUserController extends FOSRestController
 
 		if ($isIdUserInt || $idUser == "0") {
 			$user = $this->getDoctrine()
-				->getRepository(Client::class)
+				->getRepository(User::class)
 				->find($idUser);
 
 			if ($user instanceof User) {
