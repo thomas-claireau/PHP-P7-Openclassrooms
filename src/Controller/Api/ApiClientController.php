@@ -4,11 +4,13 @@ namespace App\Controller\Api;
 
 use App\Entity\Client;
 use App\Repository\ClientRepository;
-use Doctrine\Common\Persistence\ObjectManager;
 use JMS\Serializer\SerializerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use App\Exception\ResourceValidationException;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("api/")
@@ -19,11 +21,6 @@ class ApiClientController extends AbstractController
 	 * @var ClientRepository
 	 */
 	private $clientRepository;
-
-	/**
-	 * @var ObjectManager
-	 */
-	private $em;
 
 	public function __construct(ClientRepository $clientRepository, ObjectManager $em, SerializerInterface $serializer)
 	{
@@ -55,9 +52,27 @@ class ApiClientController extends AbstractController
 	 * @Rest\View(
 	 * 	serializerGroups = {"read"}
 	 * )
+	 * @Route("api/")
 	 */
-	public function read(Client $client)
+	public function read(Request $request)
 	{
-		return $client;
+		$params = $request->attributes->get('_route_params');
+		$idClient = $params['id'];
+
+		$isIdClientInt = (int) $idClient;
+
+		if ($isIdClientInt || $idClient == "0") {
+			$client = $this->getDoctrine()
+				->getRepository(Client::class)
+				->find($idClient);
+
+			if ($client instanceof Client) {
+				return $client;
+			}
+
+			throw new ResourceValidationException("The ressource was not found");
+		}
+
+		throw new ResourceValidationException("Client ID is not of type integer");
 	}
 }
