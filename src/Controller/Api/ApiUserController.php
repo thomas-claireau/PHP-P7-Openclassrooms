@@ -195,27 +195,40 @@ class ApiUserController extends FOSRestController
 	 * @Rest\Delete(
 	 *     path = "users/{id}",
 	 *     name = "api.users.delete",
-	 * 	   requirements = {"id"="\d+"}
 	 * )
 	 * @Rest\View(
 	 * 	StatusCode = 204,
 	 * 	serializerGroups = {"read"}
 	 * )
+	 * @Route("api/")
 	 */
-	public function deleteUser(User $user)
+	public function deleteUser(Request $request)
 	{
-		if ($user instanceof User) {
-			$roleUser = $user->getRole();
+		$params = $request->attributes->get('_route_params');
+		$idUser = $params['id'];
 
-			if ($roleUser !== '["ROLE_ADMIN"]') {
-				$this->em->remove($user);
-				$this->em->flush();
-				return $this->view('', Response::HTTP_NO_CONTENT);
+		$isIdUserInt = (int) $idUser;
+
+		if ($isIdUserInt) {
+			$user = $this->getDoctrine()
+				->getRepository(User::class)
+				->find($idUser);
+
+			if ($user instanceof User) {
+				$roleUser = $user->getRole();
+
+				if ($roleUser !== '["ROLE_ADMIN"]') {
+					$this->em->remove($user);
+					$this->em->flush();
+					return $this->view('', Response::HTTP_NO_CONTENT);
+				}
+
+				throw new ResourceValidationException('Unable to delete an administrator');
 			}
 
-			throw new ResourceValidationException('Unable to delete an administrator');
+			throw new ResourceValidationException("The ressource was not found");
 		}
 
-		throw new ResourceValidationException("The ressource was not found");
+		throw new ResourceValidationException("User ID is not of type integer");
 	}
 }
