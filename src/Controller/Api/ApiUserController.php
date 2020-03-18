@@ -323,7 +323,7 @@ class ApiUserController extends FOSRestController
 		$params = $request->attributes->get('_route_params');
 		$idUser = $params['id'];
 		$roleOfUserAuth = $this->userAuth->getRole();
-		$clientIdOfUserAuth = $this->userAuth->getClient()->getId();
+		$clientIdOfUserAuth = $roleOfUserAuth !== '["ROLE_ADMIN"]' ? $this->userAuth->getClient()->getId() : false;
 
 		$isIdUserInt = (int) $idUser;
 
@@ -334,7 +334,6 @@ class ApiUserController extends FOSRestController
 
 			if ($user instanceof User) {
 				$roleUser = $user->getRole();
-				$clientIdOfUser = $user->getClient()->getId();
 
 				if ($roleUser !== '["ROLE_ADMIN"]') {
 					if ($roleOfUserAuth === '["ROLE_ADMIN"]') {
@@ -342,6 +341,7 @@ class ApiUserController extends FOSRestController
 						$this->em->flush();
 						return $this->view('', Response::HTTP_NO_CONTENT);
 					} else {
+						$clientIdOfUser = $user->getClient()->getId();
 						if ($clientIdOfUserAuth == $clientIdOfUser) {
 							$this->em->remove($user);
 							$this->em->flush();
