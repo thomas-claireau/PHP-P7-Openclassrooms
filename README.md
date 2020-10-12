@@ -2,8 +2,6 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a04d6e15461c4d67a4a9b8ebc9b79610)](https://www.codacy.com/manual/thomas-claireau/PHP-P7-Openclassrooms?utm_source=github.com&utm_medium=referral&utm_content=thomas-claireau/PHP-P7-Openclassrooms&utm_campaign=Badge_Grade)
 
-Démo du projet, [c'est par ici 👋](http://bilemo.thomas-claireau.fr)
-
 ## Installation du projet
 
 Via Composer :
@@ -116,4 +114,4 @@ Vous avez le choix de mettre en place un serveur Oauth et d’y faire appel (en 
 
 Le premier partenaire de BileMo est très exigeant : il requiert que vous exposiez vos données en suivant les règles des niveaux 1, 2 et 3 du modèle de Richardson. Il a demandé à ce que vous serviez les données en JSON. Si possible, le client souhaite que les réponses soient mises en cache afin d’optimiser les performances des requêtes en direction de l’API.
 
-## ⌛ Projet en cours...
+## ✔️ Projet validé
