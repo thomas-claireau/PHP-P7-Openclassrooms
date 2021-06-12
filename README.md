@@ -1,4 +1,4 @@
-# [PHP] - P7 Openclassrooms - Créez un web service exposant une API
+# [PHP] - Bilemo - Créez un web service exposant une API
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a04d6e15461c4d67a4a9b8ebc9b79610)](https://www.codacy.com/manual/thomas-claireau/PHP-P7-Openclassrooms?utm_source=github.com&utm_medium=referral&utm_content=thomas-claireau/PHP-P7-Openclassrooms&utm_campaign=Badge_Grade)
 
